@@ -17,6 +17,7 @@ class UsersAdminView extends GetView<UsersAdminController> {
   const UsersAdminView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    String? title = Get.arguments;
     return Listener(
       onPointerDown: (_) {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -26,7 +27,7 @@ class UsersAdminView extends GetView<UsersAdminController> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Data Anggota'),
+          title: Text('Data $title'),
           actions: [
             IconButton(
                 onPressed: () async {

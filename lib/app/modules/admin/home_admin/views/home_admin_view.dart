@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ges2024/app/constant/app_constant.dart';
+import 'package:ges2024/app/modules/admin/users_admin/controllers/users_admin_controller.dart';
 import 'package:ges2024/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
@@ -111,7 +112,11 @@ class HomeAdminView extends GetView<HomeAdminController> {
                               children: [
                                 CustomCard(
                                   onTap: () {
-                                    Get.toNamed(Routes.USERS_ADMIN);
+                                    Get.find<UsersAdminController>()
+                                        .selectedStatus = 'Semua';
+                                    Get.find<UsersAdminController>().search();
+                                    Get.toNamed(Routes.USERS_ADMIN,
+                                        arguments: 'Anggota');
                                   },
                                   title: 'Anggota',
                                   value: controller.totalAnggota,
@@ -125,14 +130,22 @@ class HomeAdminView extends GetView<HomeAdminController> {
                                 ),
                                 CustomCard(
                                   onTap: () {
-                                    Get.toNamed(Routes.USERS_ADMIN);
+                                    Get.find<UsersAdminController>()
+                                        .selectedStatus = 'Tim';
+                                    Get.find<UsersAdminController>().search();
+                                    Get.toNamed(Routes.USERS_ADMIN,
+                                        arguments: 'Tim');
                                   },
                                   title: 'Tim',
                                   value: controller.totalTim,
                                 ),
                                 CustomCard(
                                   onTap: () {
-                                    Get.toNamed(Routes.USERS_ADMIN);
+                                    Get.find<UsersAdminController>()
+                                        .selectedStatus = 'Relawan';
+                                    Get.find<UsersAdminController>().search();
+                                    Get.toNamed(Routes.USERS_ADMIN,
+                                        arguments: 'Relawan');
                                   },
                                   title: 'Relawan',
                                   value: controller.totalRelawan,
