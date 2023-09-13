@@ -369,6 +369,8 @@ class AuthController extends GetxController {
       http.StreamedResponse response =
           await request.send().timeout(const Duration(milliseconds: 200000));
 
+      var res = await response.stream.bytesToString();
+      print(res);
       if (response.statusCode == 200) {
         await ApiService.get(endpoint: AppString.me, token: userToken.value)
             .then((userResponse) {
@@ -388,11 +390,11 @@ class AuthController extends GetxController {
         });
       } else {
         EasyLoading.dismiss();
-        var res = await response.stream.bytesToString();
         print(res);
         throw "Update Profil Gagal!\nPeriksa kembali inputan anda atau antara email dan nomor hp sudah digunakan pengguna lain!";
       }
     } catch (e) {
+      print(e.toString());
       EasyLoading.dismiss();
       EasyLoading.showError(
         e.toString(),

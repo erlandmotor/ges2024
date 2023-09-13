@@ -32,7 +32,7 @@ class SplashController extends GetxController {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 
-    if (androidInfo.version.sdkInt <= 33) {
+    if (androidInfo.version.sdkInt < 33) {
       storageStatus = await Permission.storage.status;
       locationStatus = await Permission.accessMediaLocation.status;
     } else {
@@ -40,7 +40,7 @@ class SplashController extends GetxController {
     }
 
     if (!storageStatus.isGranted ||
-        (androidInfo.version.sdkInt <= 33 && !locationStatus!.isGranted)) {
+        (androidInfo.version.sdkInt < 33 && !locationStatus!.isGranted)) {
       showPermissionExplanationDialog();
     } else {
       cekLogin();
