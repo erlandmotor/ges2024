@@ -33,24 +33,24 @@ class DashboardUserController extends GetxController {
   void onInit() async {
     getArticles();
     getDownlines();
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    if (androidInfo.version.sdkInt <= 33) {
-      var status = await Permission.storage.request();
-      var status2 = await Permission.accessMediaLocation.request();
-      if (status.isGranted && status2.isGranted) {
-        print('Storage Granted');
-      } else if (status.isPermanentlyDenied && status2.isPermanentlyDenied) {
-        openAppSettings();
-      }
-    } else {
-      var status = await Permission.manageExternalStorage.request();
-      if (status.isGranted) {
-        print('Storage Granted');
-      } else if (status.isPermanentlyDenied) {
-        openAppSettings();
-      }
-    }
+    // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    // AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    // if (androidInfo.version.sdkInt < 33) {
+    //   var status = await Permission.storage.request();
+    //   var status2 = await Permission.accessMediaLocation.request();
+    //   if (status.isGranted && status2.isGranted) {
+    //     print('Storage Granted');
+    //   } else if (status.isPermanentlyDenied && status2.isPermanentlyDenied) {
+    //     openAppSettings();
+    //   }
+    // } else {
+    //   var status = await Permission.manageExternalStorage.request();
+    //   if (status.isGranted) {
+    //     print('Storage Granted');
+    //   } else if (status.isPermanentlyDenied) {
+    //     openAppSettings();
+    //   }
+    // }
     super.onInit();
   }
 

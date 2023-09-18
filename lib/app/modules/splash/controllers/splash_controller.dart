@@ -32,7 +32,7 @@ class SplashController extends GetxController {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 
-    if (androidInfo.version.sdkInt <= 33) {
+    if (androidInfo.version.sdkInt < 33) {
       storageStatus = await Permission.storage.status;
       locationStatus = await Permission.accessMediaLocation.status;
     } else {
@@ -40,7 +40,7 @@ class SplashController extends GetxController {
     }
 
     if (!storageStatus.isGranted ||
-        (androidInfo.version.sdkInt <= 33 && !locationStatus!.isGranted)) {
+        (androidInfo.version.sdkInt < 33 && !locationStatus!.isGranted)) {
       showPermissionExplanationDialog();
     } else {
       cekLogin();
@@ -82,8 +82,9 @@ class SplashController extends GetxController {
   Future<void> requestStoragePermission() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    if (androidInfo.version.sdkInt <= 33) {
-      print("androidInfo.version.sdkInt <= 33");
+    print(androidInfo.version.sdkInt);
+    if (androidInfo.version.sdkInt < 33) {
+      print("androidInfo.version.sdkInt < 33");
       var status = await Permission.storage.request();
       var status2 = await Permission.accessMediaLocation.request();
       if (status.isGranted && status2.isGranted) {
@@ -94,6 +95,8 @@ class SplashController extends GetxController {
         openAppSettings();
         exit(0);
       } else {
+        print(status);
+        print(status2);
         print("ELSE status.isPermanentlyDenied && status2.isPermanentlyDenied");
         openAppSettings();
         exit(0);
