@@ -2,7 +2,8 @@ class AppString {
   // static const String baseUrl = 'http://10.0.3.2:8000';
   // static const String baseUrl = 'https://kolekting.witek-inspire.net';
   // static const String baseUrl = 'http://103.127.96.137';
-  static const String baseUrl = 'http://103.127.96.168';
+  // static const String baseUrl = 'http://103.127.96.168';
+  static const String baseUrl = 'https://backend.gess2024.my.id';
   static const String login = '/api/login';
   static const String downlines = '/api/my-downlines';
   static const String articles = '/api/articles';
