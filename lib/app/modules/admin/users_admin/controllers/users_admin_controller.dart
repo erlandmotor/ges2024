@@ -28,6 +28,7 @@ class UsersAdminController extends GetxController {
   var listSearch = RxList<UserModel>([]);
 
   String imagePath = '';
+  String ktpPath = '';
   final picker = ImagePicker();
 
   RxBool isLoading = false.obs;
@@ -460,6 +461,40 @@ class UsersAdminController extends GetxController {
     update();
   }
 
+  void pickKTP() async {
+    ktpPath = '';
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      ktpPath = image.path;
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
+        sourcePath: ktpPath,
+        maxWidth: 1000,
+        maxHeight: 500,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.ratio16x9,
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Sesuaikan Foto',
+            toolbarColor: AppColor.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.ratio16x9,
+            lockAspectRatio: true,
+            hideBottomControls: false,
+            dimmedLayerColor: Colors.black.withOpacity(0.8),
+            showCropGrid: false,
+          ),
+        ],
+        compressQuality: 60,
+      );
+      if (croppedFile != null) {
+        ktpPath = croppedFile.path;
+        authC.ktpController.text = ktpPath;
+      }
+    }
+    update();
+  }
+
   Future<void> getKabupaten() async {
     dataKabupaten.clear();
     await ApiService.get(
@@ -558,6 +593,10 @@ class UsersAdminController extends GetxController {
       if (authC.fotoController.text.isNotEmpty) {
         request.files.add(await http.MultipartFile.fromPath(
             'foto', authC.fotoController.text));
+      }
+      if (authC.ktpController.text.isNotEmpty) {
+        request.files.add(await http.MultipartFile.fromPath(
+            'foto_ktp', authC.ktpController.text));
       }
       request.headers
           .addAll({'Authorization': 'Bearer ${authC.userToken.value}'});

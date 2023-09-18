@@ -245,86 +245,242 @@ class UserEditAdminView extends GetView<UsersAdminController> {
                         ),
                         Column(
                           children: [
-                            CachedNetworkImage(
-                              imageUrl: user.fotoKtp ??
-                                  "https://via.placeholder.com/150",
-                              imageBuilder: (context, imageProvider) =>
-                                  GestureDetector(
-                                onTap: () => Get.bottomSheet(
-                                  Stack(
-                                    children: [
-                                      SizedBox(
-                                        // color: Colors.black,
-                                        width: Get.width,
-                                        height: Get.height,
-                                        child: PinchZoom(
-                                          maxScale: 10,
-                                          child: Image(image: imageProvider),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 8,
-                                        top: kToolbarHeight / 2,
-                                        child: SizedBox(
-                                          width: 48,
-                                          height: 48,
-                                          child: ElevatedButton(
-                                            onPressed: () => Get.back(),
-                                            style: ElevatedButton.styleFrom(
-                                                padding: EdgeInsets.zero,
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(48.0),
-                                                  ),
-                                                )),
-                                            child: const Icon(Icons.close),
+                            GetBuilder<UsersAdminController>(
+                                builder: (controller) {
+                              if (controller
+                                  .authC.ktpController.text.isNotEmpty) {
+                                return GestureDetector(
+                                  onTap: () => Get.bottomSheet(
+                                    Stack(
+                                      children: [
+                                        SizedBox(
+                                          // color: Colors.black,
+                                          width: Get.width,
+                                          height: Get.height,
+                                          child: PinchZoom(
+                                            maxScale: 10,
+                                            child: Image.file(File(controller
+                                                .authC.ktpController.text)),
                                           ),
                                         ),
+                                        Positioned(
+                                          right: 8,
+                                          top: kToolbarHeight / 2,
+                                          child: SizedBox(
+                                            width: 48,
+                                            height: 48,
+                                            child: ElevatedButton(
+                                              onPressed: () => Get.back(),
+                                              style: ElevatedButton.styleFrom(
+                                                  padding: EdgeInsets.zero,
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(48.0),
+                                                    ),
+                                                  )),
+                                              child: const Icon(Icons.close),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    ignoreSafeArea: true,
+                                    isScrollControlled: true,
+                                    isDismissible: false,
+                                    enableDrag: false,
+                                  ),
+                                  child: Center(
+                                    child: Container(
+                                      width: 171,
+                                      height: 96,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: FileImage(File(controller
+                                                  .authC.ktpController.text)),
+                                              fit: BoxFit.contain)),
+                                    ),
+                                  ),
+                                  // child: Center(
+                                  //   child: CircleAvatar(
+                                  //     backgroundColor: Colors.transparent,
+                                  //     radius: 48,
+                                  //     backgroundImage: FileImage(File(controller
+                                  //         .authC.fotoController.text)),
+                                  //   ),
+                                  // ),
+                                );
+                              } else {
+                                return CachedNetworkImage(
+                                  imageUrl: user.fotoKtp ??
+                                      "https://via.placeholder.com/150",
+                                  imageBuilder: (context, imageProvider) =>
+                                      GestureDetector(
+                                    onTap: () => Get.bottomSheet(
+                                      Stack(
+                                        children: [
+                                          SizedBox(
+                                            // color: Colors.black,
+                                            width: Get.width,
+                                            height: Get.height,
+                                            child: PinchZoom(
+                                              maxScale: 10,
+                                              child:
+                                                  Image(image: imageProvider),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 8,
+                                            top: kToolbarHeight / 2,
+                                            child: SizedBox(
+                                              width: 48,
+                                              height: 48,
+                                              child: ElevatedButton(
+                                                onPressed: () => Get.back(),
+                                                style: ElevatedButton.styleFrom(
+                                                    padding: EdgeInsets.zero,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(48.0),
+                                                      ),
+                                                    )),
+                                                child: const Icon(Icons.close),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                      ignoreSafeArea: true,
+                                      isScrollControlled: true,
+                                      isDismissible: false,
+                                      enableDrag: false,
+                                    ),
+                                    child: Center(
+                                      child: Container(
+                                        width: 171,
+                                        height: 96,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.contain)),
+                                      ),
+                                    ),
                                   ),
-                                  ignoreSafeArea: true,
-                                  isScrollControlled: true,
-                                  isDismissible: false,
-                                  enableDrag: false,
-                                ),
-                                child: Center(
-                                  child: Container(
-                                    width: 171,
-                                    height: 96,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.contain)),
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: Container(
+                                      width: 128,
+                                      height: 96,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: Colors.grey[300]!,
-                                highlightColor: Colors.grey[100]!,
-                                child: Container(
-                                  width: 128,
-                                  height: 96,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
+                                  errorWidget: (context, url, error) =>
+                                      const Center(
+                                    child: CircleAvatar(
+                                      radius: 48,
+                                      child: Icon(Icons.error),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Center(
-                                child: CircleAvatar(
-                                  radius: 48,
-                                  child: Icon(Icons.error),
-                                ),
-                              ),
-                            ),
-                            const Center(
+                                );
+                              }
+                            }),
+                            Center(
                                 child: TextButton(
-                                    onPressed: null, child: Text('Foto KTP'))),
+                                    onPressed: () {
+                                      controller.pickKTP();
+                                    },
+                                    child: const Text('Edit KTP'))),
                           ],
                         ),
+                        // Column(
+                        //   children: [
+                        //     CachedNetworkImage(
+                        //       imageUrl: user.fotoKtp ??
+                        //           "https://via.placeholder.com/150",
+                        //       imageBuilder: (context, imageProvider) =>
+                        //           GestureDetector(
+                        //         onTap: () => Get.bottomSheet(
+                        //           Stack(
+                        //             children: [
+                        //               SizedBox(
+                        //                 // color: Colors.black,
+                        //                 width: Get.width,
+                        //                 height: Get.height,
+                        //                 child: PinchZoom(
+                        //                   maxScale: 10,
+                        //                   child: Image(image: imageProvider),
+                        //                 ),
+                        //               ),
+                        //               Positioned(
+                        //                 right: 8,
+                        //                 top: kToolbarHeight / 2,
+                        //                 child: SizedBox(
+                        //                   width: 48,
+                        //                   height: 48,
+                        //                   child: ElevatedButton(
+                        //                     onPressed: () => Get.back(),
+                        //                     style: ElevatedButton.styleFrom(
+                        //                         padding: EdgeInsets.zero,
+                        //                         shape:
+                        //                             const RoundedRectangleBorder(
+                        //                           borderRadius:
+                        //                               BorderRadius.all(
+                        //                             Radius.circular(48.0),
+                        //                           ),
+                        //                         )),
+                        //                     child: const Icon(Icons.close),
+                        //                   ),
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //           ignoreSafeArea: true,
+                        //           isScrollControlled: true,
+                        //           isDismissible: false,
+                        //           enableDrag: false,
+                        //         ),
+                        //         child: Center(
+                        //           child: Container(
+                        //             width: 171,
+                        //             height: 96,
+                        //             decoration: BoxDecoration(
+                        //                 image: DecorationImage(
+                        //                     image: imageProvider,
+                        //                     fit: BoxFit.contain)),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       placeholder: (context, url) => Shimmer.fromColors(
+                        //         baseColor: Colors.grey[300]!,
+                        //         highlightColor: Colors.grey[100]!,
+                        //         child: Container(
+                        //           width: 128,
+                        //           height: 96,
+                        //           decoration: const BoxDecoration(
+                        //             color: Colors.white,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       errorWidget: (context, url, error) =>
+                        //           const Center(
+                        //         child: CircleAvatar(
+                        //           radius: 48,
+                        //           child: Icon(Icons.error),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     const Center(
+                        //         child: TextButton(
+                        //             onPressed: null, child: Text('Foto KTP'))),
+                        //   ],
+                        // ),
                       ],
                     ),
                     const Text(
