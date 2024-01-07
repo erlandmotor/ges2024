@@ -16,14 +16,14 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-      - uses: erlandmotor/flutter-action@v2
+      - uses: ncipollo/flutter-action@v2
         with:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter build apk --release --split-per-abi
 
       - name: Push to Releases
-        uses: erlandmotor/release-action@v1
+        uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/apk/release/*"
           tag: v0.0.1
